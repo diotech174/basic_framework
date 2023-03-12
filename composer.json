@@ -1,0 +1,9 @@
+{
+    "require": {
+        "twig/twig": "^2.0",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "require-dev": {
+        "blastcloud/guzzler": "^2.0"
+    }
+}

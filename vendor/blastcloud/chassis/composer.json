@@ -1,0 +1,23 @@
+{
+    "name": "blastcloud/chassis",
+    "description": "A framework for building declarative HTTP client test libraries",
+    "type": "library",
+    "require": {
+        "phpunit/phpunit": ">=8.2",
+        "ext-json": "*",
+        "php": ">=8.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Kelso",
+            "email": "kelso.adam@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "BlastCloud\\Chassis\\": "src",
+            "tests\\": "tests"
+        }
+    }
+}

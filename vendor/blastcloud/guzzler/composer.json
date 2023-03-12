@@ -1,0 +1,33 @@
+{
+    "name": "blastcloud/guzzler",
+    "description": "Supercharge your app or SDK with a testing library specifically for Guzzle.",
+    "keywords": ["guzzle", "phpunit", "testing", "php", "mock"],
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Adam Kelso",
+            "email": "kelso.adam@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "phpunit/phpunit": ">=8.2",
+        "guzzlehttp/guzzle": "^7.4.3",
+        "ext-json": "*",
+        "blastcloud/chassis": "^1.0.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "BlastCloud\\Guzzler\\": "src/",
+            "tests\\": "tests/"
+        },
+        "files": [
+            "src/Helpers/macros.php"
+        ]
+    },
+    "prefer-stable": true,
+    "require-dev": {
+    }
+}
