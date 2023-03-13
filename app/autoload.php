@@ -14,7 +14,7 @@ if(isset($_ENV["PHP_MAX_EXECUTION_TIME"])){
 
 require_once __DIR__."/Interface/BasicException.php";
 require_once __DIR__."/Http/request.php";
-
+require_once __DIR__."/Database/Database.php";
 
 $includes = [];
 
