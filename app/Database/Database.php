@@ -1,5 +1,6 @@
 <?php
 namespace App\Database;
+use App\BasicExceptions\BasicException;
 
 class Database
 {
@@ -7,15 +8,19 @@ class Database
 
     public function __construct()
     {
-        try {
-            $servername = $_ENV["MYSQL_SERVER"] ?? null;
-            $database = $_ENV["DATABASE"] ?? null;
-            $username = $_ENV["USER"] ?? null;
-            $password = $_ENV["PASSWORD"] ?? null;
+        $servername = $_ENV["MYSQL_SERVER"] ?? null;
+        $database = $_ENV["DATABASE"] ?? null;
+        $username = $_ENV["USER"] ?? null;
+        $password = $_ENV["PASSWORD"] ?? null;
 
+        try {
+            
             $this->conn = new \PDO("mysql:host=$servername;dbname=$database", $username, $password);
+
         } catch (\PDOException $e) {
-            throw new \PDOException("Connection failed: " . $e->getMessage());
+
+            throw new BasicException("Connection failed: " . $e->getMessage());
         }
+  
     }
 }

@@ -156,9 +156,6 @@ class App
     {
         if(!isset($_ENV["APP_DEBUG"]) || $_ENV["APP_DEBUG"] === "true")
         {
-            //$css = "<link href='data:text/css;base64,".APP_DEBUG_JS."'>";
-            //$js = "<script src='data:text/javascript;base64,".APP_DEBUG_JS."'></script>";
-
             echo "<script>";
 
             echo "let css = document.createElement('link');";

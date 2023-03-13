@@ -23,7 +23,7 @@ class BasicException extends \Exception
         $html .= "\t\t<script src='data:text/javascript;base64,".APP_BOOTSTRAP_JS."'></script>\n";
         $html .= "\t</header>\n";
         $html .= "\t</body>";
-        $html .=  "\t\t<div class='container'>\n";
+        $html .=  "\t\t<div class='container-fluid'>\n";
         $html .=  "\t\t\t<div class='row'>\n";
         $html .=  "\t\t\t\t<div class='col-md-12'>\n";
         $html .=  "\t\t\t\t\t".$message."\n";
@@ -43,6 +43,10 @@ class BasicException extends \Exception
 
     public function __toString() {
         $this->showMessage($this->message);
-        return "Ocorreu uma exceção: [{$this->code}]: {$this->remove_html_tags($this->message)}\n";
+
+        error_reporting(E_ALL & ~E_NOTICE);
+        ini_set('display_errors', 0);
+
+        return "[BasicException] Ocorreu uma exceção: [{$this->code}]: {$this->remove_html_tags($this->message)}\n";
     }
 }
