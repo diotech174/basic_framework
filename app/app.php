@@ -23,7 +23,8 @@ class App
 
     public function __construct()
     {
-        $this->url = $_SERVER["REQUEST_URI"];
+        $url = $_SERVER["REQUEST_URI"];
+        $this->url = isset($_ENV["BASE_URL"]) ? str_replace($_ENV["BASE_URL"], "", $url) : $url;
     }
 
     private function extractParameters($string) {
@@ -36,8 +37,7 @@ class App
     {
         try {
             $params = $this->extractParameters($path);
-            $paramsPath = explode("/", $path);
-            $router = isset($paramsPath[1]) ? "/". $paramsPath[1] : "/";
+            $router = $path;
 
             $this->routes[$router] = [
                 "method" => $method,
@@ -90,9 +90,10 @@ class App
     private function render()
     {
         try {
+            
             $urlParams = array_filter(explode("/", $this->url));
 
-            if(empty($urlParams) || substr($urlParams[1], 0, 1) === "?")
+            if(empty($urlParams) || empty($urlParams) && strpos($this->url, "?"))
             {
                 $router = (object)$this->routes["/"];
                 $this->routerNow = $router;
@@ -108,45 +109,52 @@ class App
                 $class->$function($request);
                 $this->startDebug();
 
-            } elseif (isset($this->routes["/".$urlParams[1]])) {
+            } elseif (!empty($urlParams)) {
 
-                $router = (object)$this->routes["/".$urlParams[1]];
-                $this->routerNow = $router;
+                $routerExistis = false;
 
-                $this->checkMethod($router);
+                foreach ($this->routes as $route_pattern => $route) {
+                    $route_parts_pattern = preg_replace('/\{.*?\}/', '([^/]+)', $route_pattern);
+                    $route_pattern_regex = '@^' . $route_parts_pattern . '$@i';
 
-                $class = new $router->class();
-                $function = $router->function;
-                $params = $router->params;
+                    if (preg_match($route_pattern_regex, $this->url, $matches)) {
+                        array_shift($matches);
 
-                $paramsUrl = array_filter(explode("/", str_replace("/".$urlParams[1], "", $this->url)));
+                        $this->routerNow = $route;
 
-                if (empty($params)) {
-                    $this->execRouter($class, $function);
-                } elseif(count($paramsUrl) === count($params)) {
-                    $pathVariables = [];
+                        $controller = (object)$route;
+                        $class = new ($controller->class)();
+                        $function = $controller->function;
 
-                    foreach($params as $key => $param) {
+                        $params = $controller->params;
 
-                        if (isset($paramsUrl[$key+1])) {
-                            $pathVariables[$param] = $urlParams[$key+1];
+                        if (empty($params)) {
+                            $this->execRouter($class, $function);
+                        } else {
+
+                            $pathVariables = [];
+
+                            foreach($params as $i => $param) {
+                                $pathVariables[$param] = $matches[$i];
+                            }
+
+                            $request = new Request();
+                            $request->setPathVariable($pathVariables);
+                            $request->setQueryParam($_GET);
+                            $request->setPost($_POST);
+        
+                            $this->execRouter($class, $function, $request);
                         }
+
+                        $routerExistis = true;
+                        break;
                     }
-
-                    $request = new Request();
-                    $request->setPathVariable($pathVariables);
-                    $request->setQueryParam($_GET);
-                    $request->setPost($_POST);
-
-                    $this->execRouter($class, $function, $request);
-
-                }  else {
-                    throw new BasicException(ERROR_URL_NOT_FOUND);
                 }
 
-            }  else {
-                throw new BasicException(ERROR_URL_NOT_FOUND);
-            }
+                if(!$routerExistis) {
+                    throw new BasicException(ERROR_URL_NOT_FOUND);
+                }
+            }  
         } catch (Exception $e) {
             throw new BasicException($e->getMessage());
         }
