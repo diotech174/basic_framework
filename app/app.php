@@ -93,7 +93,7 @@ class App
             
             $urlParams = array_filter(explode("/", $this->url));
 
-            if(empty($urlParams) || empty($urlParams) && strpos($this->url, "?"))
+            if(empty($urlParams))
             {
                 $router = (object)$this->routes["/"];
                 $this->routerNow = $router;
