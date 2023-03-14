@@ -109,7 +109,7 @@ class App
                 $class->$function($request);
                 $this->startDebug();
 
-            } elseif (!empty($urlParams)) {
+            } else {
 
                 $routerExistis = false;
 
