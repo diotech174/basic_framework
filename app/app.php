@@ -167,7 +167,7 @@ class App
             echo "<script>";
 
             echo "let css = document.createElement('link');";
-            echo "css.setAttribute('href', 'data:text/css;base64,".APP_DEBUG_JS."');";
+            echo "css.setAttribute('href', 'data:text/css;base64,".APP_DEBUG_CSS."');";
             echo "let js = document.createElement('script');";
             echo "js.setAttribute('src', 'data:text/javascript;base64,".APP_DEBUG_JS."');";
 
