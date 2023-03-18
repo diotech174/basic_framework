@@ -4,7 +4,7 @@
 
 Install:
 
-1. Run the command: php basic Install
+1. Run the command: php basic install
 2. Run the command: php basic serve
 3. Open the URL: http://localhost:8000
 
