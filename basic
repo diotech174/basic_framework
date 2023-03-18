@@ -23,7 +23,7 @@ function make($args)
     $controllerText .= "\t{\n\t\techo \"Hello Wolrd!\";\n";
     $controllerText .= "\t}\n}";
 
-    $modelText = "<?php\nnamespace Http\\Controllers;";
+    $modelText = "<?php\nnamespace App\\Model;";
     $modelText .= "\n\nuse App\\Database\\Database;";
     $modelText .= "\n\nclass %CLASSNAME% extends Database\n{";
     $modelText .= "\n\tpublic function findById()\n";
