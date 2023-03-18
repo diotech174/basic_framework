@@ -164,25 +164,39 @@ class App
     {
         if(!isset($_ENV["APP_DEBUG"]) || $_ENV["APP_DEBUG"] === "true")
         {
-            echo "<script>";
+            echo "\n\n<!-- APP DEBUG -->";
+            echo "\n<script>";
 
-            echo "let css = document.createElement('link');";
-            echo "css.setAttribute('href', 'data:text/css;base64,".APP_DEBUG_CSS."');";
-            echo "let js = document.createElement('script');";
-            echo "js.setAttribute('src', 'data:text/javascript;base64,".APP_DEBUG_JS."');";
+            echo "\n\tlet css = document.createElement('link');";
+            echo "\n\tcss.setAttribute('href', 'data:text/css;base64,".APP_DEBUG_CSS."');";
+            echo "\n\tlet js = document.createElement('script');";
+            echo "\n\tjs.setAttribute('src', 'data:text/javascript;base64,".APP_DEBUG_JS."');";
 
-            echo "let ctx = document.body;";
-            echo "ctx.appendChild(css);";
-            echo "ctx.appendChild(js);";
+            echo "\n\tlet bcss = document.createElement('link');";
+            echo "\n\tbcss.setAttribute('href', 'data:text/css;base64,".APP_BOOTSTRAP_CSS."');";
+            echo "\n\tlet bjs = document.createElement('script');";
+            echo "\n\tbjs.setAttribute('src', 'data:text/javascript;base64,".APP_BOOTSTRAP_JS."');";
 
+            echo "\n\tlet ctx = document.body;";
+            echo "\n\tctx.appendChild(css);";
+            echo "\n\tctx.appendChild(js);";
+
+            
             $dataDebug = [
                 "router" => $this->routerNow,
                 "dataViwer" => DATATWIG
             ];
-            echo "setTimeout(() => {";
-            echo "setData('".base64_encode(json_encode($dataDebug))."');";
-            echo "}, 500);";
-            echo "</script>";
+
+            echo "\n\tsetTimeout(() => {";
+            
+            echo "\n\t\tdocument.head.appendChild(bcss);";
+            echo "\n\t\tdocument.head.appendChild(bjs);";
+  
+            echo "\n\t\tsetData('".base64_encode(json_encode($dataDebug))."');";
+            
+            echo "\n\t}, 500);";
+            
+            echo "\n</script>";
         }
     }
 
