@@ -4,9 +4,11 @@
 
 Install:
 
-1. Run the command: php basic install
-2. Run the command: php basic serve
-3. Open the URL: http://localhost:8000
+1. Open in terminal the project root folder 
+2. Run the command: composer install install
+3. Run the command: php basic install
+4. Run the command: php basic serve
+5. Open the URL: http://localhost:8000
 
 
 ###################################################################################################################
