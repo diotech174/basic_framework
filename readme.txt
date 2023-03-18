@@ -40,4 +40,4 @@ Example 3: $app->post("/save", [YourController::class, "saveFunction"]);
 Create a new Model
 
 1. Run the command: php basic make:model sample
-2. Open the file: myproject/app/Models/ModelController.php
+2. Open the file: myproject/app/Models/SampleModel.php
