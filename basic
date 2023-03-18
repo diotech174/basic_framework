@@ -1,0 +1,113 @@
+<?php 
+define("PATH_TO_CONTROLLERS", __DIR__."/app/Http/Controllers/");
+define("PATH_TO_MODELS", __DIR__."/app/Models/");
+
+require_once __DIR__."/vendor/autoload.php";
+
+if(file_exists(__DIR__."/.env"))
+{
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/");
+    $dotenv->load();
+}
+
+function make($args)
+{
+    $params = explode(":", $args[1]);
+    $opt = $params[1] ?? null;
+
+    $name = $args[2] ?? null;
+
+    $controllerText = "<?php\nnamespace Http\\Controllers;";
+    $controllerText .= "\n\nclass %CLASSNAME% extends Controller\n{";
+    $controllerText .= "\n\tpublic function Index()\n";
+    $controllerText .= "\t{\n\t\techo \"Hello Wolrd!\";\n";
+    $controllerText .= "\t}\n}";
+
+    $modelText = "<?php\nnamespace Http\\Controllers;";
+    $modelText .= "\n\nuse App\\Database\\Database;";
+    $modelText .= "\n\nclass %CLASSNAME% extends Database\n{";
+    $modelText .= "\n\tpublic function findById()\n";
+    $modelText .= "\t{\n\t\t# make something!\n";
+    $modelText .= "\t}\n}";
+
+
+    if ($name === null) {
+        echo $opt . " not specified!\n";
+    } else {
+
+        switch ($opt)
+        {
+            case "controller":
+
+                $controllerName = strtoupper(substr($name, 0, 1)) . strtolower(substr($name, 1, strlen($name)))."Controller";
+                $fileToCreate = PATH_TO_CONTROLLERS.$controllerName.".php";
+
+                if(!file_exists($fileToCreate)) {
+                    $controllerFile = fopen($fileToCreate, "w") or die("Unable to open file!");
+                    fwrite($controllerFile, str_replace("%CLASSNAME%", $controllerName, $controllerText));
+                    fclose($controllerFile);
+                    echo "Make ".$controllerName.".php file with success\n";
+                } else  {
+                    echo "Failed to make ".$controllerName.".php file, this file already exists!\n";
+                }
+
+                break;
+            
+            case "model":
+                $modelName = strtoupper(substr($name, 0, 1)) . strtolower(substr($name, 1, strlen($name)))."Model";
+                $fileToCreate = PATH_TO_MODELS.$modelName.".php";
+
+                if(!file_exists($fileToCreate)) {
+                    $controllerFile = fopen($fileToCreate, "w") or die("Unable to open file!");
+                    fwrite($controllerFile, str_replace("%CLASSNAME%", $modelName, $modelText));
+                    fclose($controllerFile);
+                    echo "Make ".$modelName.".php file with success\n";
+                } else  {
+                    echo "Failed to make ".$modelName.".php file, this file already exists!\n";
+                }
+
+                break;
+
+            default:
+                echo "unknow command: ".$opt."\n";
+                break;
+        }
+    }
+}
+
+function serve()
+{
+    shell_exec("php -S localhost:".$_ENV["APP_PORT"]." -t ".__DIR__."/public");
+}
+
+function install()
+{
+    $envExampleFile = __DIR__."/env.example";
+    $envFile = __DIR__."/.env";
+    $vars = "";
+
+    if(file_exists($envExampleFile)) {
+
+        $vars = file_get_contents($envExampleFile);
+
+        if(!file_exists($envFile)) {
+            $createEnv = fopen($envFile, "w") or die("Unable to open file!");
+            fwrite($createEnv, $vars);
+            fclose($createEnv);
+
+            
+            echo $envFile." file created with success!\n";
+            echo "-------------------------------------------------------\n";
+            echo "Install successfully!\n\n";
+       
+        } else {
+            echo $envFile." file already exists!\n";
+        }
+    } else {
+        echo $envExampleFile." file not found!\n";
+    }
+}
+
+$params = explode(":", $argv[1]);
+function_exists($params[0]) AND call_user_func($params[0], $argv);
+

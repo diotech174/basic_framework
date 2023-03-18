@@ -17,16 +17,12 @@ function showDebug() {
     let ctx = document.body;
     let modal = document.createElement('div');
     modal.setAttribute("id", "debug");
-    modal.setAttribute("style", "background-color: #F2F2F2; width: 100%; height: 300px; padding: 5px;");
-    modal.style.position = 'absolute';
-    let y =  window.innerHeight;
-
-    modal.style.top = (y - 300) + "px";
+    modal.setAttribute("style", "background-color: #F2F2F2; width: 100%; height: 300px; padding: 5px; position: fixed; bottom: 0px;");
 
     let header = document.createElement('div');
     header.setAttribute("style", "border: 1px solid #A4A4A4; width: 100%; height: 15%; padding: 5px; margin-bottom: 5px");
 
-    let close = "<span style='cursor: pointer; color: red; background-color: #F2F2F2; margin: 5px; position: absolute; top: 10px; right: 1%' onclick='closeDebug()'>Close Debug [X]</span>";
+    let close = "<span style='cursor: pointer; color: red; background-color: #F2F2F2; margin: 5px; position: fixed; bottom: 300px; right: 1%;' onclick='closeDebug()'>Close Debug [X]</span>";
 
     header.innerHTML = close + "<h4><strong style='color: #585858;'>[Debug Mode]</strong></h4>";
 
@@ -73,12 +69,9 @@ function closeDebug()
     let button = document.createElement('div');
 
     button.setAttribute("id", "closeButton");
-    button.setAttribute("style", "background-color: transparent; width: 100%; height: 30px; padding: 5px;");
-    button.style.position = 'absolute';
-    let y =  window.innerHeight;
-
-    button.style.top = (y - 30) + "px";
-    let show = "<span style='cursor: pointer; color: red; background-color: #F2F2F2; margin: 5px; position: absolute; top: 0px; right: 1%' onclick='showDebug()'>Show Debug</span>";
+    button.setAttribute("style", "background-color: transparent; width: 100%; height: 30px; padding: 5px; position: fixed; bottom: 300px; right: 1%");
+ 
+    let show = "<span style='cursor: pointer; color: red; background-color: #F2F2F2; margin: 5px; position: fixed; bottom: 0px; right: 1%' onclick='showDebug()'>Show Debug</span>";
     button.innerHTML = show;
 
     ctx.appendChild(button);
@@ -191,31 +184,4 @@ function getDataInfo()
     
     html += "</table>";
     return html;
-}
-
-function refreshPosition()
-{
-    setTimeout(() => {
-        let debug = document.getElementById('debug');
-        if(debug !== null)
-        {
-            let y =  window.innerHeight;
-            debug.style.top = (y - 300) + "px";
-        }
-
-        let closeButton = document.getElementById('closeButton');
-        if(closeButton !== null)
-        {
-            let y =  window.innerHeight;
-            closeButton.style.top = (y - 30) + "px";
-        }
-    }, 100);
-}
-
-document.onkeyup = function(e){
-    refreshPosition();
-}
-
-document.onmouseover = function(e){
-    refreshPosition();
 }

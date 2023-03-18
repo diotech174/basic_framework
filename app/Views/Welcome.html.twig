@@ -26,10 +26,32 @@
         </div>
 
         <div class="row my-5">
-            <div class="col-md-12">
-                <h3 class="text-center">Manual</h3>
-            </div>
-            <div class="col-md-12">
+            <div class="col-md-12 px-5">
+
+                <h3>Create a new Controller</h3><br><br>
+
+                1. Run the command: php basic make:controller sample<br>
+                2. Open the file: myproject/app/Http/Controllers/SampleController.php<br><br>
+
+                <h3>Create a new route</h3><br><br>
+
+                1. Open the file: myproject/routers/web.php<br>
+                2. Include your controller class in top file:<br><br>
+
+                <font class="text-primary">use Http\Controllers\YourController;</font><br><br>
+
+                3. Add a new line with the example code:<br><br>
+
+                Example 1:&emsp;<font class="text-success">$app->get("/hello", [YourController::class, "helloFunction"]);</font><br>
+                Example 2:&emsp;<font class="text-success">$app->get("/hello/{param1}/{param2}/...", [YourController::class, "helloFunction"]);</font><br>
+                Example 3:&emsp;<font class="text-success">$app->post("/save", [YourController::class, "saveFunction"]);</font><br><br>
+
+                4. Access your new route, open the URL: <font class="text-info">http://localhost:xxxx/hello</font><br><br>
+
+                <h3>Create a new  Model</h3><br><br>
+
+                1. Run the command: php basic make:model sample<br>
+                2. Open the file: myproject/app/Models/ModelController.php<br><br><br>
             </div>
         </div>
         <hr>
