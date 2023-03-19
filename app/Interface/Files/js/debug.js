@@ -15,16 +15,18 @@ function showDebug() {
     }
 
     let ctx = document.body;
+    ctx.setAttribute('style', 'font-family: Arial, Helvetica, sans-serif;');
+
     let modal = document.createElement('div');
     modal.setAttribute("id", "debug");
-    modal.setAttribute("style", "background-color: #F2F2F2; width: 100%; height: 300px; padding: 5px; position: fixed; bottom: 0px;");
+    modal.setAttribute("style", "background-color: #F2F2F2; width: 100%; height: 300px; padding: 5px; position: fixed; bottom: 0px; margin: auto");
 
     let header = document.createElement('div');
-    header.setAttribute("style", "border: 1px solid #A4A4A4; width: 100%; height: 15%; padding: 5px; margin-bottom: 5px");
+    header.setAttribute("style", "border: 1px solid #A4A4A4; width: 100%; height: 30px; margin-bottom: 5px;");
 
-    let close = "<span style='cursor: pointer; color: red; background-color: #F2F2F2; margin: 5px; position: fixed; bottom: 300px; right: 1%;' onclick='closeDebug()'>Close Debug [X]</span>";
+    let close = "<span style='cursor: pointer; color: red; background-color: #F2F2F2; margin: 0px; position: fixed; bottom: 300px; right: 1%;' onclick='closeDebug()'>Close Debug [X]</span>";
 
-    header.innerHTML = close + "<h4><strong style='color: #585858;'>[Debug Mode]</strong></h4>";
+    header.innerHTML = close;
 
     modal.appendChild(header);
 
@@ -32,7 +34,7 @@ function showDebug() {
     dataRouter.innerHTML = getRouterInfo();
 
     let divRouter = document.createElement('div');
-    divRouter.setAttribute('style', 'width: 40%; height: 100%; border-right: 1px solid #A4A4A4; padding: 10px; overflow-x: hidden; overflow-y: auto');
+    divRouter.setAttribute('style', 'width: 40%; height: 100%; border-right: 1px solid #A4A4A4; padding-left: 10px; overflow-x: hidden; overflow-y: auto');
 
     divRouter.appendChild(dataRouter);
 
@@ -41,7 +43,7 @@ function showDebug() {
     dataViwer.innerHTML = getDataInfo();
 
     let divData = document.createElement('div');
-    divData.setAttribute('style', 'width: 60%; height: 100%; padding: 10px');
+    divData.setAttribute('style', 'width: 60%; height: 100%; padding-left: 10px');
 
     divData.appendChild(dataViwer);
 
@@ -94,7 +96,7 @@ function getRouterInfo()
         i++;
     }
 
-    let html = "<h6>[ROUTER INFO]</h6><table style='width: 100%; font-size: 100%'>";
+    let html = "<span style='font-size: 15px; font-weight: bold'>[ROUTER INFO]</span><br><br><table style='width: 100%; font-size: 100%'>";
     html += "<tr><td><label style='color: #8A0808'>Router:</label></td><td>["+ data.router.method+"]</td></tr>";
     html += "<tr><td><label style='color: #8A0808'>Controller:</label></td><td>["+ data.router.class+"]</td></tr>";
     html += "<tr><td><label style='color: #8A0808'>Function:</label></td><td>["+ data.router.function+"]</td></tr>";
@@ -155,7 +157,7 @@ function populateObject(indexObj, value, element, countTab)
 function getDataInfo()
 {
     let data = JSON.parse(atob(dataDebug));
-    let html = "<h6>[VARIABLES]</h6><table style='width: 100%; font-size: 100%'>";
+    let html = "<span style='font-size: 15px; font-weight: bold'>[VARIABLES]</span><br><br><table style='width: 100%; font-size: 100%'>";
     console.log(data);
 
     let index = 1;

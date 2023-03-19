@@ -172,11 +172,6 @@ class App
             echo "\n\tlet js = document.createElement('script');";
             echo "\n\tjs.setAttribute('src', 'data:text/javascript;base64,".APP_DEBUG_JS."');";
 
-            echo "\n\tlet bcss = document.createElement('link');";
-            echo "\n\tbcss.setAttribute('href', 'data:text/css;base64,".APP_BOOTSTRAP_CSS."');";
-            echo "\n\tlet bjs = document.createElement('script');";
-            echo "\n\tbjs.setAttribute('src', 'data:text/javascript;base64,".APP_BOOTSTRAP_JS."');";
-
             echo "\n\tlet ctx = document.body;";
             echo "\n\tctx.appendChild(css);";
             echo "\n\tctx.appendChild(js);";
@@ -188,12 +183,8 @@ class App
             ];
 
             echo "\n\tsetTimeout(() => {";
-            
-            echo "\n\t\tdocument.head.appendChild(bcss);";
-            echo "\n\t\tdocument.head.appendChild(bjs);";
-  
+
             echo "\n\t\tsetData('".base64_encode(json_encode($dataDebug))."');";
-            
             echo "\n\t}, 500);";
             
             echo "\n</script>";
