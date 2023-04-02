@@ -41,3 +41,14 @@ Create a new Model
 
 1. Run the command: php basic make:model sample
 2. Open the file: myproject/app/Models/SampleModel.php
+
+###################################################################################################################
+
+Create a docker image
+
+1. In root folder exec this command's:
+
+docker build -t basic .
+docker run -p 8080:8080 basic
+
+2. Open the URL: http://localhost:8080
