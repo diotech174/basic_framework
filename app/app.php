@@ -86,6 +86,52 @@ class App
         }
     }
 
+    private function renderRouterWithParam()
+    {
+        $routerExistis = false;
+
+        foreach ($this->routes as $route_pattern => $route) {
+            $routePartsPattern = preg_replace('/\{.*?\}/', '([^/]+)', $route_pattern);
+            $routePatternRegex = '@^' . $routePartsPattern . '$@i';
+
+            if (preg_match($routePatternRegex, $this->url, $matches)) {
+                array_shift($matches);
+
+                $this->routerNow = $route;
+
+                $controller = (object)$route;
+                $class = new ($controller->class)();
+                $function = $controller->function;
+
+                $params = $controller->params;
+
+                if (empty($params)) {
+                    $this->execRouter($class, $function);
+                } else {
+
+                    $pathVariables = [];
+
+                    foreach ($params as $i => $param) {
+                        $pathVariables[$param] = $matches[$i];
+                    }
+
+                    $request = new Request();
+                    $request->setPathVariable($pathVariables);
+                    $request->setQueryParam($_GET);
+                    $request->setPost($_POST);
+
+                    $this->execRouter($class, $function, $request);
+                }
+
+                $routerExistis = true;
+                break;
+            }
+        }
+
+        if (!$routerExistis) {
+            throw new BasicException(ERROR_URL_NOT_FOUND);
+        }
+    }
     private function render()
     {
         try {
@@ -108,50 +154,7 @@ class App
                 $this->startDebug();
 
             } else {
-
-                $routerExistis = false;
-
-                foreach ($this->routes as $route_pattern => $route) {
-                    $route_parts_pattern = preg_replace('/\{.*?\}/', '([^/]+)', $route_pattern);
-                    $route_pattern_regex = '@^' . $route_parts_pattern . '$@i';
-
-                    if (preg_match($route_pattern_regex, $this->url, $matches)) {
-                        array_shift($matches);
-
-                        $this->routerNow = $route;
-
-                        $controller = (object)$route;
-                        $class = new ($controller->class)();
-                        $function = $controller->function;
-
-                        $params = $controller->params;
-
-                        if (empty($params)) {
-                            $this->execRouter($class, $function);
-                        } else {
-
-                            $pathVariables = [];
-
-                            foreach ($params as $i => $param) {
-                                $pathVariables[$param] = $matches[$i];
-                            }
-
-                            $request = new Request();
-                            $request->setPathVariable($pathVariables);
-                            $request->setQueryParam($_GET);
-                            $request->setPost($_POST);
-        
-                            $this->execRouter($class, $function, $request);
-                        }
-
-                        $routerExistis = true;
-                        break;
-                    }
-                }
-
-                if (!$routerExistis) {
-                    throw new BasicException(ERROR_URL_NOT_FOUND);
-                }
+                $this->renderRouterWithParam();
             }
         } catch (Exception $e) {
             throw new BasicException($e->getMessage());
