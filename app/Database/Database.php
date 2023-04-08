@@ -1,5 +1,6 @@
 <?php
 namespace App\Database;
+
 use App\BasicExceptions\BasicException;
 
 class Database
