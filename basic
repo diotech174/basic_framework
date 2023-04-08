@@ -35,8 +35,7 @@ function make($args)
         echo $opt . " not specified!\n";
     } else {
 
-        switch ($opt)
-        {
+        switch ($opt) {
             case "controller":
 
                 $controllerName = strtoupper(substr($name, 0, 1))
