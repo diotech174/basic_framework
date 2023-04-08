@@ -5,10 +5,10 @@ Auto load
 
 error_reporting(E_ALL & ~E_NOTICE);
 
-if(isset($_ENV["PHP_DISPLAY_ERRORS"])) {
+if (isset($_ENV["PHP_DISPLAY_ERRORS"])) {
     ini_set('display_errors', $_ENV["PHP_DISPLAY_ERRORS"]);
 }
-if(isset($_ENV["PHP_MAX_EXECUTION_TIME"])){
+if (isset($_ENV["PHP_MAX_EXECUTION_TIME"])) {
     ini_set('max_execution_time', $_ENV["PHP_MAX_EXECUTION_TIME"]);
 }
 
@@ -27,8 +27,7 @@ $includes[] = $controllers;
 $includes[] = $models;
 
 foreach ($includes as $folder) {
-    if(is_array($folder))
-    {
+    if (is_array($folder)) {
         foreach ($folder as $files) {
             require_once($files);
         }

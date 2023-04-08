@@ -79,10 +79,9 @@ class App
 
     private function checkMethod($router)
     {
-        if(count($_POST) > 0 && $router->method === "GET") {
+        if (!empty($_POST)&& $router->method === "GET") {
             throw new BasicException(ERROR_METHOD_POST_NOT_ALLOWED);
-        } else if (empty($_POST) && $router->method === "POST")
-        {
+        } elseif (empty($_POST) && $router->method === "POST") {
             throw new BasicException(ERROR_METHOD_GET_NOT_ALLOWED);
         }
     }
@@ -93,8 +92,7 @@ class App
             
             $urlParams = array_filter(explode("/", $this->url));
 
-            if(empty($urlParams))
-            {
+            if (empty($urlParams)) {
                 $router = (object)$this->routes["/"];
                 $this->routerNow = $router;
 
@@ -134,7 +132,7 @@ class App
 
                             $pathVariables = [];
 
-                            foreach($params as $i => $param) {
+                            foreach ($params as $i => $param) {
                                 $pathVariables[$param] = $matches[$i];
                             }
 
@@ -151,10 +149,10 @@ class App
                     }
                 }
 
-                if(!$routerExistis) {
+                if (!$routerExistis) {
                     throw new BasicException(ERROR_URL_NOT_FOUND);
                 }
-            }  
+            }
         } catch (Exception $e) {
             throw new BasicException($e->getMessage());
         }
@@ -162,8 +160,7 @@ class App
 
     private function startDebug()
     {
-        if(!isset($_ENV["APP_DEBUG"]) || $_ENV["APP_DEBUG"] === "true")
-        {
+        if (!isset($_ENV["APP_DEBUG"]) || $_ENV["APP_DEBUG"] === "true") {
             echo "\n\n<!-- APP DEBUG -->";
             echo "\n<script>";
 

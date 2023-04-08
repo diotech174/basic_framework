@@ -3,7 +3,8 @@ namespace App\BasicExceptions;
 
 class BasicException extends \Exception
 {
-    private function remove_html_tags($text) {
+    private function removeHtmlTags($text)
+    {
         $clean = '/<[^>]*>/';
         return preg_replace($clean, '', $text);
     }
@@ -47,6 +48,6 @@ class BasicException extends \Exception
         error_reporting(E_ALL & ~E_NOTICE);
         ini_set('display_errors', 0);
 
-        return "[BasicException] Ocorreu uma exceção: [{$this->code}]: {$this->remove_html_tags($this->message)}\n";
+        return "[BasicException] Ocorreu uma exceção: [{$this->code}]: {$this->removeHtmlTags($this->message)}\n";
     }
 }
