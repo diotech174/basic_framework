@@ -1,4 +1,4 @@
-<?php 
+<?php
 define("PATH_TO_CONTROLLERS", __DIR__."/app/Http/Controllers/");
 define("PATH_TO_MODELS", __DIR__."/app/Models/");
 define("ERROR_OPEN_FILE", "Unable to open file!");
